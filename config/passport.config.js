@@ -27,7 +27,7 @@ const initializePassport = () => {
     passport.use('github', new GitHubStrategy({
         clientID: 'Iv1.7c168af642299967',
         clientSecret: 'ac3c2c594bb56296c30b886e4a638dcca42d691d',
-        callbackURL: "http://127.0.0.1:3000/api/sessions/github/callback"
+        callbackURL: "/api/sessions/github/callback"
     }, async (accessToken, refreshToken, profile, done) => {
       try {
         console.log(profile); // Es recomendable hacer console.log de toda la información que viene del perfil.
