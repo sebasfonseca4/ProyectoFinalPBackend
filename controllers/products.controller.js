@@ -72,15 +72,16 @@ const purchaseCart = async (req, res) => {
   const userId = req.session.user;  
   try {
     const cart = await CartDAO.getByCartId(cid);
-    console.log(cart.userId)
-    console.log(userId)
     if (!cart) return res.status(404).json({ message: "Carrito no encontrado" });
-    const products = await Promise.all(cart.products.map(async (productId) => {
-      const product = await ProductDAO.getById(productId);
-      if (product.stock < 1) throw new Error(`Producto "${product.name}" sin stock disponible`);
-      return product;
-    }));
+    // const products = await Promise.all(cart.products.map(async (productId) => {
+    //   const product = await ProductDAO.getById(productId);
+    //   if (product.stock < 1) throw new Error(`Producto "${product.name}" sin stock disponible`);
+    //   return product;
+    // }));
+    const products = cart.products;
     const ticket = await CartDAO.finalizePurchase(userId, cart, products);
+    await CartDAO.emptyCart(cid);
+    console.log(cid)
     logger.info('Compra realizada con éxito');
     return res.status(200).json({ message: "Compra realizada con éxito", ticket });
   } catch (error) {

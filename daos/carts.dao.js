@@ -54,7 +54,12 @@ class CartDAO {
     const amount = calculateTotalAmount(products); 
     const purchaser = userId;
     const ticket = await TicketDAO.createTicket(code, amount, purchaser);
+    await Cart.updateOne({ _id: cart._id }, { $set: { products: [] } });    
     return ticket;
+  }
+
+  static async emptyCart(cartId) {
+    return await Cart.updateOne({ _id: cartId }, { $set: { products: [] } });
   }
 }
 
