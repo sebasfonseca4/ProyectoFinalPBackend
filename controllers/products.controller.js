@@ -47,10 +47,13 @@ const AddProductCart = async (req, res) => {
   try {
     const userId = req.session.user;
     const user = await UsersDAO.getUserByID(userId);
-    console.log(user, "XXX")
+    console.log(user._id.toString(), "XXX")
+    console.log(user)
     if (user.role === 'premium') {
       const product = await ProductDAO.getById(productId);
-      if (product.owner.toString() === userId) {
+      console.log(product, "XXX")
+      console.log(userId)
+      if (product.createdBy.toString() === userId) {
         return res.status(403).json({ message: 'No puedes agregar tu propio producto al carrito' });
       }
     }
