@@ -23,6 +23,7 @@ router.get("/github/callback", passport.authenticate("github", {
     failureRedirect: "/login",
 }), async (req, res) => {
     req.session.user = req.user._id;
+    console.log(req.user)
     await UsersDAO.updateUserLastConnection(req.user._id, new Date());
     res.redirect("/store/products");
 });
