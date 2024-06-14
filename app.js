@@ -81,6 +81,7 @@ app.get('/loggerTest', (req, res) => {
 
 // Conexión MongoDB
 mongoose.connect(process.env.MONGO_URL);
+mongoose.set('strictQuery', false);
 
 app.listen(process.env.PORT, () => {
     console.log(`Servidor listo http://127.0.0.1:${process.env.PORT}`);
